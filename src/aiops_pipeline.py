@@ -53,7 +53,9 @@ if __name__ == "__main__":
 
     print(f"Records processed: {result['records_processed']}")
     print(f"Anomalies detected: {len(result['anomalies_detected'])}")
+    print(f"Events generated and published: {len(result['anomalies_detected'])}")
     print(f"Events consumed: {len(result['events_consumed'])}")
+    print("Event flow: detector -> producer -> anomaly-events topic -> consumer -> AIOps output")
 
     print("\nDetected Events:")
 
