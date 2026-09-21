@@ -23,9 +23,8 @@ class AnomalyDetector:
         if record["memory_percent"] > self.memory_threshold:
             reasons.append("High memory utilization")
 
-        # INTENTIONAL ASSESSMENT ISSUE
-        if record["log_level"] == "WARNING":
-            reasons.append("Error log detected")
+        if record["log_level"] in {"WARNING", "ERROR"}:
+            reasons.append("Concerning log level")
 
         if not reasons:
             return None

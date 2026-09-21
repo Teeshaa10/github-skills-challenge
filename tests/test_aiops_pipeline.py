@@ -40,6 +40,7 @@ def test_anomalous_record_is_detected():
 
     assert event is not None
     assert event["type"] == "ANOMALY"
+    assert "Concerning log level" in event["reasons"]
 
 
 def test_producer_publishes_event():
@@ -70,3 +71,15 @@ def test_consumer_receives_event():
     messages = consumer.consume()
 
     assert len(messages) == 1
+
+
+def test_pipeline_delivers_detected_events_to_consumer():
+    result = run_pipeline(Path("data/service_data.json"))
+
+    assert result["records_processed"] == 10
+    assert len(result["anomalies_detected"]) == 2
+    assert len(result["events_consumed"]) == 2
+    assert [event["timestamp"] for event in result["events_consumed"]] == [
+        "2026-09-20T10:05:00",
+        "2026-09-20T10:06:00",
+    ]
